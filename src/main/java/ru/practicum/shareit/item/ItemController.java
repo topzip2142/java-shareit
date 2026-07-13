@@ -23,8 +23,10 @@ public class ItemController {
 
     private final ItemService itemService;
 
+    private static final String REQUEST_HEADER_USER_ID = "X-Sharer-User-Id";
+
     @GetMapping
-    public Collection<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public Collection<ItemDto> getItems(@RequestHeader(REQUEST_HEADER_USER_ID) long userId) {
         return itemService.getItems(userId);
     }
 
@@ -34,20 +36,20 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ItemDto createItem(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                               @RequestBody NewItemRequest item) {
         return itemService.createItem(item, userId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ItemDto updateItem(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                               @RequestBody UpdateItemRequest item,
                               @PathVariable long itemId) {
         return itemService.updateItem(itemId, item, userId);
     }
 
     @GetMapping("/search")
-    public Collection<ItemDto> searchItem(@RequestHeader("X-Sharer-User-Id") long userId,
+    public Collection<ItemDto> searchItem(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                           @RequestParam String text) {
         return itemService.search(userId, text);
     }
