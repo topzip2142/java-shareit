@@ -20,14 +20,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserDto getUser(long id) {
-        return userRepository.getUser(id)
+        return userRepository.findById(id)
                 .map(UserMapper::mapToUserDto)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + id + " не найден"));
     }
 
     @Override
     public Collection<UserDto> getUsers() {
-        return userRepository.getUsers()
+        return userRepository.findAll()
                 .stream()
                 .map(UserMapper::mapToUserDto)
                 .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class UserServiceImp implements UserService {
             throw new DuplicatedDataException("Данный имейл уже используется");
         }
         User user = UserMapper.mapToUser(request);
-        user = userRepository.createUser(user);
+        user = userRepository.save(user);
         return UserMapper.mapToUserDto(user);
     }
 
@@ -51,17 +51,17 @@ public class UserServiceImp implements UserService {
         if (userFields.hasEmail() && isEmailExist(userFields.getEmail())) {
             throw new DuplicatedDataException("Данный имейл уже используется");
         }
-        User updatedUser = userRepository.getUser(id)
+        User updatedUser = userRepository.findById(id)
                 .map(user -> UserMapper.updateFields(user, userFields))
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + id + " не найден"));
-        updatedUser = userRepository.updateUser(updatedUser);
+        updatedUser = userRepository.save(updatedUser);
         return UserMapper.mapToUserDto(updatedUser);
     }
 
     @Override
     public void delUser(long id) {
-        userRepository.getUser(id).ifPresentOrElse(
-                user -> userRepository.delUser(id),
+        userRepository.findById(id).ifPresentOrElse(
+                user -> userRepository.deleteById(id),
                 () -> {
                     throw new NotFoundException("Пользователь с ID: " + id + " не найден");
                 }
@@ -69,7 +69,6 @@ public class UserServiceImp implements UserService {
     }
 
     private boolean isEmailExist(String email) {
-        return userRepository.getUsers().stream()
-                .anyMatch(user -> user.getEmail().equals(email));
+        return !userRepository.findByEmailContainingIgnoreCase(email).isEmpty();
     }
 }
