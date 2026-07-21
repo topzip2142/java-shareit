@@ -2,13 +2,13 @@ package ru.practicum.shareit.item;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.CommentResponseDTO;
 import ru.practicum.shareit.item.model.Comment;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CommentMapper {
-    public static CommentDto mapToCommentDto(Comment comment) {
-        CommentDto dto = new CommentDto();
+    public static CommentResponseDTO mapToCommentDto(Comment comment) {
+        CommentResponseDTO dto = new CommentResponseDTO();
         dto.setId(comment.getId());
         dto.setText(comment.getText());
         dto.setAuthorName(comment.getAuthor().getName());

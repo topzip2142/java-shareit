@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserResponseDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
     private String name;
@@ -17,7 +17,7 @@ public class UserDto {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        UserDto dto = (UserDto) o;
+        UserResponseDTO dto = (UserResponseDTO) o;
         return id == dto.id && Objects.equals(name, dto.name) && Objects.equals(email, dto.email);
     }
 

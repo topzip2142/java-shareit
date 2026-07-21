@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateUserRequest {
+public class UpdateUserRequestDTO {
     private String name;
     @Email
     private String email;

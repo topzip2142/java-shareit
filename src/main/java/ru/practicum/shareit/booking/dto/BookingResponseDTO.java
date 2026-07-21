@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class BookingDto {
+public class BookingResponseDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
     private Status status;

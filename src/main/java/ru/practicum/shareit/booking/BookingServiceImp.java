@@ -2,8 +2,8 @@ package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.booking.dto.NewBookingRequest;
+import ru.practicum.shareit.booking.dto.BookingResponseDTO;
+import ru.practicum.shareit.booking.dto.BookingRequestDTO;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.exception.NotFoundException;
@@ -24,7 +24,7 @@ public class BookingServiceImp implements BookingService {
     private final ItemRepository itemRepository;
 
     @Override
-    public BookingDto createBooking(NewBookingRequest request, long bookerId) {
+    public BookingResponseDTO createBooking(BookingRequestDTO request, long bookerId) {
         User booker = userRepository.findById(bookerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + bookerId + " не найден"));
         long itemId = request.getItemId();
@@ -43,7 +43,7 @@ public class BookingServiceImp implements BookingService {
     }
 
     @Override
-    public BookingDto approveBooking(long bookingId, long ownerId, boolean isApprove) {
+    public BookingResponseDTO approveBooking(long bookingId, long ownerId, boolean isApprove) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Брони с ID: " + bookingId + " не найдена"));
         Item item = booking.getItem();
@@ -59,7 +59,7 @@ public class BookingServiceImp implements BookingService {
     }
 
     @Override
-    public BookingDto getBooking(long bookingId, long userId) {
+    public BookingResponseDTO getBooking(long bookingId, long userId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Брони с ID: " + bookingId + " не найдена"));
         Item item = booking.getItem();
@@ -71,7 +71,7 @@ public class BookingServiceImp implements BookingService {
     }
 
     @Override
-    public Collection<BookingDto> getUserBookings(long userId, String state) {
+    public Collection<BookingResponseDTO> getUserBookings(long userId, String state) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + userId + " не найден"));
         Collection<Booking> bookings;
@@ -93,7 +93,7 @@ public class BookingServiceImp implements BookingService {
     }
 
     @Override
-    public Collection<BookingDto> getOwnerBookings(long ownerId, String state) {
+    public Collection<BookingResponseDTO> getOwnerBookings(long ownerId, String state) {
         userRepository.findById(ownerId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + ownerId + " не найден"));
         Collection<Booking> bookings;
@@ -113,7 +113,7 @@ public class BookingServiceImp implements BookingService {
                 .toList();
     }
 
-    private void checkBooking(NewBookingRequest request) {
+    private void checkBooking(BookingRequestDTO request) {
         if (request.getStart() == null || request.getStart().toString().isEmpty()) {
             throw new ValidationException("Должны быть указаны ДатаВремя начала брони");
         }

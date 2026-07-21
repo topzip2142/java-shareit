@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class NewBookingRequest {
+public class BookingRequestDTO {
     private Long itemId;
     private LocalDateTime start;
     private LocalDateTime end;

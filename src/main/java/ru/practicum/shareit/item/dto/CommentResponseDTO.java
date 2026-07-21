@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class CommentDto {
+public class CommentResponseDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
     private String text;
