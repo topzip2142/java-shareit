@@ -1,10 +1,12 @@
 package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-public class NewUserRequest {
+@Getter
+@Setter
+public class NewUserRequestDTO {
     private String name;
     @Email
     private String email;

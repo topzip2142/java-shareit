@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.user.dto.NewUserRequest;
-import ru.practicum.shareit.user.dto.UpdateUserRequest;
-import ru.practicum.shareit.user.dto.UserDto;
+import ru.practicum.shareit.user.dto.NewUserRequestDTO;
+import ru.practicum.shareit.user.dto.UpdateUserRequestDTO;
+import ru.practicum.shareit.user.dto.UserResponseDTO;
 
 import java.util.Collection;
 
@@ -23,23 +23,23 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{id}")
-    public UserDto get(@PathVariable long id) {
+    public UserResponseDTO get(@PathVariable long id) {
         return userService.getUser(id);
     }
 
     @GetMapping
-    public Collection<UserDto> getAll() {
+    public Collection<UserResponseDTO> getAll() {
         return userService.getUsers();
     }
 
     @PatchMapping("/{id}")
-    public UserDto update(@PathVariable long id,
-                          @RequestBody @Valid UpdateUserRequest user) {
+    public UserResponseDTO update(@PathVariable long id,
+                                  @RequestBody @Valid UpdateUserRequestDTO user) {
         return userService.updateUser(id, user);
     }
 
     @PostMapping
-    public UserDto create(@RequestBody @Valid NewUserRequest user) {
+    public UserResponseDTO create(@RequestBody @Valid NewUserRequestDTO user) {
         return userService.createUser(user);
     }
 
