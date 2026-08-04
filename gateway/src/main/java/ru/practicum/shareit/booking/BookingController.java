@@ -20,14 +20,16 @@ public class BookingController {
 
     private final BookingClient bookingClient;
 
+    private static final String REQUEST_HEADER_USER_ID = "X-Sharer-User-Id";
+
     @PostMapping
-    public ResponseEntity<Object> createBooking(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ResponseEntity<Object> createBooking(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                                 @RequestBody NewBookingRequest booking) {
         return bookingClient.createBooking(booking, userId);
     }
 
     @PatchMapping("/{bookingId}")
-    public ResponseEntity<Object> approveBooking(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ResponseEntity<Object> approveBooking(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                                  @PathVariable long bookingId,
                                                  @RequestParam boolean approved) {
         return bookingClient.approveBooking(userId, bookingId, approved);
@@ -35,19 +37,19 @@ public class BookingController {
 
 
     @GetMapping("/{bookingId}")
-    public ResponseEntity<Object> getBooking(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ResponseEntity<Object> getBooking(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                              @PathVariable long bookingId) {
         return bookingClient.getBooking(userId, bookingId);
     }
 
     @GetMapping()
-    public ResponseEntity<Object> getAllBookings(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ResponseEntity<Object> getAllBookings(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                                  @RequestParam(defaultValue = "ALL") String state) {
         return bookingClient.getAllBookings(userId, state);
     }
 
     @GetMapping("/owner")
-    public ResponseEntity<Object> getAllBookingsByOwner(@RequestHeader("X-Sharer-User-Id") long userId,
+    public ResponseEntity<Object> getAllBookingsByOwner(@RequestHeader(REQUEST_HEADER_USER_ID) long userId,
                                                         @RequestParam(defaultValue = "ALL") String state) {
         return bookingClient.getOwnerBookings(userId, state);
     }
